@@ -1,9 +1,12 @@
-import { useDisclosure } from "./hooks/useDisclosure";
+import { useState } from "react";
 import "./styles.css";
 
 export const App = () => {
-  // Используем наш кастомный хук без колбэков
-  const { isOpen, toggle } = useDisclosure(false);
+  const [isOpen, setIsOpen] = useState(false);
+
+  const toggle = () => {
+    setIsOpen(!isOpen);
+  };
 
   return (
     <div className="page">
