@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect } from "react";
 
 interface UseDisclosureOptions {
   onOpen?: () => void;
@@ -10,14 +10,36 @@ export const useDisclosure = (
   { onOpen, onClose }: UseDisclosureOptions = {}
 ) => {
   const [isOpen, setIsOpen] = useState(initialState);
-
+  
+  // Обновляем состояние при изменении initialState
   useEffect(() => {
-    isOpen ? onOpen?.() : onClose?.();
-  }, [isOpen, onOpen, onClose]);
-
-  const open = useCallback(() => setIsOpen(true), []);
-  const close = useCallback(() => setIsOpen(false), []);
-  const toggle = useCallback(() => setIsOpen(prev => !prev), []);
-
-  return { isOpen, toggle, open, close };
+    setIsOpen(initialState);
+  }, [initialState]);
+  
+  // Функция открытия с вызовом колбэка
+  const open = () => {
+    setIsOpen(true);
+    if (onOpen) {
+      onOpen();
+    }
+  };
+  
+  // Функция закрытия с вызовом колбэка
+  const close = () => {
+    setIsOpen(false);
+    if (onClose) {
+      onClose();
+    }
+  };
+  
+  // Функция переключения с вызовом соответствующего колбэка
+  const toggle = () => {
+    if (isOpen) {
+      close();
+    } else {
+      open();
+    }
+  };
+  
+  return { isOpen, open, close, toggle };
 };

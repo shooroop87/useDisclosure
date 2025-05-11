@@ -1,12 +1,11 @@
-import { useState } from "react";
 import "./styles.css";
+import { useDisclosure } from "../hooks/useDisclosure";
 
 export const App = () => {
-  const [isOpen, setIsOpen] = useState(false);
-
-  const toggle = () => {
-    setIsOpen(!isOpen);
-  };
+  const { isOpen, toggle } = useDisclosure(false, {
+    onOpen: () => console.log("Open"),
+    onClose: () => console.log("Close"),
+  });
 
   return (
     <div className="page">
